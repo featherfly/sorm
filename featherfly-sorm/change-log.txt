@@ -1,0 +1,41 @@
+2015-04-09 1.3.2
+	1.加入unique方法
+	
+2014-08-27 1.3.1
+	1.加入list方法
+		
+2014-08-21 1.3.0
+	1.集成Spring JdbcTemplate,以便与spring事务管理无缝集成	
+2014-06-21 1.2.0
+	1.移植cn.featherfly
+2013-11-04 1.1.2
+	1.加入dataBase自动检测（mysql可以，oracle检测不到），如果检测了以后还未null才跑出异常
+	2.在进行table object映射时，加入了table不存在的判断，不存在判处异常
+	3.common-db升级为1.4.1
+2013-11-04 1.1.2
+	1.加入dataBase自动检测（mysql可以，oracle检测不到），如果检测了以后还未null才跑出异常
+	2.在进行table object映射时，加入了table不存在的判断，不存在判处异常
+	3.common-db升级为1.4.1
+
+2012-3-9 1.1.1
+1. common-db升级为1.0.2
+2. 优化设置库名称同common-db
+
+2011-10-11 1.1.0
+1. 加入嵌套对象属性映射（只支持一级嵌套）
+	表teacher -> 列 school_id
+	@Table(name = "teacher");
+	Class Teacher {
+		@Column(innerProperty = "id", name = "school_id")
+		School school
+	}
+	表school -> 列 id
+	@Table(name = "school");
+	Clsss School {
+		String id;
+	}
+2. 修正隐式映射列名大写问题，隐式映射自动先转换为小写
+-------------------------------------------------------------------------------
+
+2010-09-19 1.0.0
+发布
