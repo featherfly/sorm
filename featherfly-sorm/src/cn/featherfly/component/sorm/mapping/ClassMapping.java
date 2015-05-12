@@ -103,10 +103,10 @@ public class ClassMapping<T> {
 					SystemPropertyUtils.getLineSeparator(),
 					type.getName(), tableName));
 
-			Collection<BeanProperty> bps =  bd.findBeanPropertys(
+			Collection<BeanProperty<?>> bps =  bd.findBeanPropertys(
 					new BeanPropertyAnnotationMatcher(Logic.OR, Column.class, Identity.class));
 			boolean findPk = false;
-			for (BeanProperty beanProperty : bps) {
+			for (BeanProperty<?> beanProperty : bps) {
 				if (mapping(beanProperty, tableMapping, logInfo)) {
 					findPk = true;
 				}
@@ -140,7 +140,7 @@ public class ClassMapping<T> {
 	//	private method
 	// ********************************************************************
 
-	private static boolean mapping(BeanProperty beanProperty, Map<String, PropertyMapping> tableMapping
+	private static boolean mapping(BeanProperty<?> beanProperty, Map<String, PropertyMapping> tableMapping
 			, StringBuilder logInfo) {
 		PropertyMapping mapping = new PropertyMapping();
 		Column columnAnnotation = beanProperty.getAnnotation(Column.class);
@@ -159,7 +159,7 @@ public class ClassMapping<T> {
 		if (StringUtils.isNotEmpty(innerProperty)) {
 			BeanDescriptor<?> innerBd = BeanDescriptor
 				.getBeanDescriptor(beanProperty.getType());
-			BeanProperty innerBeanProperty = innerBd.getBeanProperty(
+			BeanProperty<?> innerBeanProperty = innerBd.getBeanProperty(
 					innerProperty);
 			mapping.setInnerPropertyName(innerBeanProperty.getName());
 			mapping.setInnerPropertyType(innerBeanProperty.getType());
@@ -182,7 +182,7 @@ public class ClassMapping<T> {
 			String columnName = cmd.getName().toLowerCase();
 			String propertyName = WordUtils.parseToUpperFirst(
 					columnName, Chars.UNDER_LINE.charAt(0));
-			BeanProperty beanProperty = bd.findBeanProperty(
+			BeanProperty<?> beanProperty = bd.findBeanProperty(
 					new BeanPropertyNameRegexMatcher(propertyName));
 			if (beanProperty != null) {
 				PropertyMapping mapping = new PropertyMapping();
