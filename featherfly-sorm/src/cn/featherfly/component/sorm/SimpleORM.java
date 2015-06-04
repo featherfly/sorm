@@ -203,8 +203,8 @@ public class SimpleORM<T> {
      * @return Execution
      */
 	public Execution getQueryExecution(ConditionBuilder conditionBuilder) {
-	    Execution execution = new SimpleExecution(queryOperate.getSelectSql(), 
-	            conditionBuilder.getParams());
+	    Execution execution = new SimpleExecution(queryOperate.getSql(conditionBuilder), 
+	            conditionBuilder.getParams().toArray());
 	    return execution;
 	}
 	/**

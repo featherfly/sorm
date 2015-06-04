@@ -106,7 +106,7 @@ public class QueryOperate<T> extends AbstractQueryOperate<T>{
 			@Override
 			public List<T> doInConnection(Connection conn) throws SQLException,
 					DataAccessException {
-				String executeSql = sql + condition;
+				String executeSql = getSql(condition);
 				logger.debug("execute sql: {}" , executeSql);
 				PreparedStatement prep = conn.prepareStatement(executeSql);
 				
@@ -145,5 +145,31 @@ public class QueryOperate<T> extends AbstractQueryOperate<T>{
 	@Override
 	protected String initCondition() {
 		return "";
+	}
+	/**
+	 * <p>
+	 * 获取带条件的sql
+	 * </p>
+	 * @param condition 条件
+	 * @return 带条件的sql
+	 */
+	public String getSql(String condition) {
+	    if (LangUtils.isNotEmpty(condition)) {
+	        condition = " where " + condition;
+	    } else {
+	        condition = "";
+	    }
+	    return sql + condition;
+	}
+	/**
+     * <p>
+     * 获取带条件的sql
+     * </p>
+     * @param builder 条件构建器
+     * @return 带条件的sql
+     */
+	public String getSql(ConditionBuilder builder) {
+	    builder.setBuildWithWhere(true);
+	    return sql + " " + builder.build();
 	}
 }

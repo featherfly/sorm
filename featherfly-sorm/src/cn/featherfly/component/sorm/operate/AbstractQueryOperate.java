@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import cn.featherfly.common.bean.BeanUtils;
 import cn.featherfly.common.db.JdbcUtils;
+import cn.featherfly.common.lang.LangUtils;
 import cn.featherfly.component.sorm.mapping.PropertyMapping;
 
 /**
@@ -72,9 +73,12 @@ public abstract class AbstractQueryOperate<T> extends AbstractOperate<T>{
 	protected void initSql() {
 		initSelectSql();
 		StringBuilder getSql = new StringBuilder();		
-		getSql.append(getSelectSql())
-			.append(" where ")
-			.append(initCondition());
+		getSql.append(getSelectSql());
+		String condition = initCondition();
+		if (LangUtils.isNotEmpty(condition)) {
+		    getSql.append(" where ")
+            .append(condition);
+		}
 		this.sql = getSql.toString();
 		logger.debug("sql: {}" , this.sql);
 	}
@@ -105,7 +109,6 @@ public abstract class AbstractQueryOperate<T> extends AbstractOperate<T>{
 		}
 		selectSql.append(" from ")
 			.append(classMapping.getTableName());
-		
 		this.selectSql = selectSql.toString();		
 	}
 	
