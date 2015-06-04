@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import cn.featherfly.common.db.builder.ConditionBuilder;
+import cn.featherfly.common.db.data.Execution;
+import cn.featherfly.common.db.data.SimpleExecution;
 import cn.featherfly.common.lang.AssertIllegalArgument;
 import cn.featherfly.component.sorm.operate.DeleteOperate;
 import cn.featherfly.component.sorm.operate.GetOperate;
@@ -29,7 +31,7 @@ public class SimpleORM<T> {
 
 	/**
 	 * @param type 类型
-	 * @param dataSource 数据源 
+	 * @param jdbcTemplate jdbcTemplate
 	 */
 	public SimpleORM(Class<T> type, JdbcTemplate jdbcTemplate) {
 		init(type, jdbcTemplate, null);
@@ -37,7 +39,7 @@ public class SimpleORM<T> {
 	
 	/**
 	 * @param type 类型
-	 * @param dataSource 数据源 
+	 * @param jdbcTemplate jdbcTemplate
 	 * @param dataBase 具体库
 	 */
 	public SimpleORM(Class<T> type, JdbcTemplate jdbcTemplate, String dataBase) {
@@ -103,7 +105,7 @@ public class SimpleORM<T> {
 	 * <p>
 	 * 获取指定的对象.
 	 * </p>
-	 * @see cn.featherfly.component.sorm.operate.GetOperate#get()
+	 * @see cn.featherfly.component.sorm.operate.GetOperate#get(id)
 	 * @param id 唯一标识
 	 * @return 指定主键值的对象
 	 */
@@ -191,6 +193,75 @@ public class SimpleORM<T> {
 	 */
 	public void setGeneratedKey(boolean generatedKey) {
 		insertOperate.setGeneratedKey(generatedKey);
+	}
+	
+	/**
+     * <p>
+     * 根据指定条件返回Execution.
+     * </p>
+     * @param conditionBuilder 查询条件构建器
+     * @return Execution
+     */
+	public Execution getQueryExecution(ConditionBuilder conditionBuilder) {
+	    Execution execution = new SimpleExecution(queryOperate.getSelectSql(), 
+	            conditionBuilder.getParams());
+	    return execution;
+	}
+	/**
+     * <p>
+     * 返回获取指定对象的Execution.
+     * </p>
+     * @param id 唯一标识
+     * @return Execution
+     */
+	public Execution getGetExecution(Serializable id) {
+	    Execution execution = new SimpleExecution(getOperate.getSql(), 
+                new Object[] {id});
+        return execution;
+	}
+	/**
+     * <p>
+     * 返回保存对象的Execution.
+     * </p>
+     * @param entity 对象
+     * @return Execution
+     */
+	public Execution getSaveExecution(T entity) {
+	    insertOperate.execute(entity);
+	    Execution execution = new SimpleExecution(insertOperate.getSql(), 
+	            insertOperate.getParameters(entity));
+        return execution;
+	}
+	/**
+     * <p>
+     * 返回更新对象的Execution.
+     * </p>
+     * @param entity 对象
+     * @return Execution
+     */
+	public Execution getUpdateExecution(T entity) {
+	    Execution execution = new SimpleExecution(updateOperate.getSql(), 
+	            updateOperate.getParameters(entity));
+	    return execution;
+	}
+	
+//	public Execution getMergeExecution(T entity) {
+//          TODO 之后来实现
+	//	    Execution execution = new SimpleExecution(mergeOperate.getSql(), 
+//	            new Object[] {id});
+//	    return execution;
+//	}
+	/**
+     * <p>
+     * 返回删除对象的Execution.
+     * </p>
+     * @param entity 对象
+     * @return Execution
+     */
+	public Execution getDeleteExecution(T entity) {
+	    Execution execution = new SimpleExecution(deleteOperate.getSql(), 
+	            deleteOperate.getParameters(entity));
+	    return execution;
 	}
 
 	// ********************************************************************

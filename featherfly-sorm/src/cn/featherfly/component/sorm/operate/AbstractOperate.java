@@ -99,6 +99,15 @@ public abstract class AbstractOperate<T> {
 					BeanUtils.getProperty(entity, propertyPosition.getValue()));
 		}
 	}
+	public Object[] getParameters(T entity) {
+	    Object[] params = new Object[] {propertyPositions.size()};
+	    int i = 0;
+	    for (Entry<Integer, String> propertyPosition : propertyPositions.entrySet()) {
+	        params[i] = BeanUtils.getProperty(entity, propertyPosition.getValue());
+	        i++;
+        }
+	    return params;
+	}
 	/**
 	 * <p>
 	 * 设置预编译参数
