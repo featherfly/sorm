@@ -139,6 +139,9 @@ test {
 }
 */
 jar {
-    manifest.attributes buildBy: "zhong ji"
-    manifest.attributes provider: "gradle"
+    manifest.attributes 'Build-Name': archivesBaseName
+    manifest.attributes 'Build-By': "zhong ji"
+    manifest.attributes 'Tool' : "gradle"
+    manifest.attributes 'Build-Jdk' : ant.properties['java.runtime.version']
+    manifest.attributes 'Bundle-License': 'http://www.apache.org/licenses/LICENSE-2.0'
 }
