@@ -2,6 +2,7 @@ package cn.featherfly.component.sorm.mapping;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -9,20 +10,21 @@ import org.slf4j.LoggerFactory;
 
 import cn.featherfly.common.bean.BeanDescriptor;
 import cn.featherfly.common.bean.BeanProperty;
-import cn.featherfly.common.bean.condition.BeanPropertyAnnotationMatcher;
-import cn.featherfly.common.bean.condition.BeanPropertyNameRegexMatcher;
+import cn.featherfly.common.bean.matcher.BeanPropertyAnnotationMatcher;
+import cn.featherfly.common.bean.matcher.BeanPropertyNameRegexMatcher;
 import cn.featherfly.common.constant.Chars;
 import cn.featherfly.common.db.metadata.ColumnMetadata;
 import cn.featherfly.common.db.metadata.DatabaseMetadata;
 import cn.featherfly.common.db.metadata.TableMetadata;
 import cn.featherfly.common.enums.Logic;
+import cn.featherfly.common.lang.LangUtils;
+import cn.featherfly.common.lang.ServiceLoaderUtils;
 import cn.featherfly.common.lang.StringUtils;
 import cn.featherfly.common.lang.SystemPropertyUtils;
 import cn.featherfly.common.lang.WordUtils;
 import cn.featherfly.component.sorm.SimpleORMException;
 import cn.featherfly.component.sorm.annotation.Column;
 import cn.featherfly.component.sorm.annotation.Identity;
-import cn.featherfly.component.sorm.annotation.Table;
 
 /**
  * <p>
@@ -41,6 +43,20 @@ public class ClassMapping<T> {
 
 	private static final Map<Class<?>, ClassMapping<?>> MAPPED_CLASS = new HashMap<Class<?>, ClassMapping<?>>();
 
+	
+	private static final List<ClassTableNameFactory> TABLE_NAME_FACTORIES;
+	
+//	private static final List<PropertyColumnNameFactory> COLUMN_NAME_FACTORIES;
+	
+	static {
+	    TABLE_NAME_FACTORIES = ServiceLoaderUtils.loadAll(ClassTableNameFactory.class);
+	    TABLE_NAME_FACTORIES.add(new ClassTableNameJpaFactory());	    
+	    TABLE_NAME_FACTORIES.add(new ClassTableNameSormAnnotationFactory());
+	    TABLE_NAME_FACTORIES.add(new ClassTableNameSormNameMapFactory());
+	    
+//	    COLUMN_NAME_FACTORIES = ServiceLoaderUtils.loadAll(PropertyColumnNameFactory.class);
+	}
+	
 	/**
 	 *
 	 * @param type 类型
@@ -88,20 +104,21 @@ public class ClassMapping<T> {
 		ClassMapping<T> cm = (ClassMapping<T>) MAPPED_CLASS.get(type);
 		if (cm == null) {
 			Map<String, PropertyMapping> tableMapping = new HashMap<String, PropertyMapping>();
+			
 			StringBuilder logInfo = new StringBuilder();
-			// 从对象中读取有Column的列，找到显示映射，使用scan扫描
+//			// 从对象中读取有Column的列，找到显示映射，使用scan扫描			
 			BeanDescriptor<T> bd = BeanDescriptor.getBeanDescriptor(type);
-			Table tableAnnotation = bd.getAnnotation(Table.class);
-			String tableName = null;
-			if (tableAnnotation == null) {
-				tableName = WordUtils.addSignBeforeUpper(type.getSimpleName(), UNDER_LINE , true);
-			} else {
-				tableName = tableAnnotation.value();
-			}
+//			Table tableAnnotation = bd.getAnnotation(Table.class);
+//			String tableName = null;
+//			if (tableAnnotation == null) {
+//				tableName = WordUtils.addSignBeforeUpper(type.getSimpleName(), UNDER_LINE , true);
+//			} else {
+//				tableName = tableAnnotation.value();
+//			}
+		    String tableName = getTableName(type);
 			tableName = tableName.toUpperCase();
 			logInfo.append(String.format("###%s类%s映射到表%s",
-					SystemPropertyUtils.getLineSeparator(),
-					type.getName(), tableName));
+					SystemPropertyUtils.getLineSeparator(), type.getName(), tableName));
 
 			Collection<BeanProperty<?>> bps =  bd.findBeanPropertys(
 					new BeanPropertyAnnotationMatcher(Logic.OR, Column.class, Identity.class));
@@ -139,6 +156,31 @@ public class ClassMapping<T> {
 	// ********************************************************************
 	//	private method
 	// ********************************************************************
+	
+	private static String getTableName(Class<?> type) {
+	    String tableName = null;
+	    for (ClassTableNameFactory classTableNameFactory : TABLE_NAME_FACTORIES) {
+	        tableName = classTableNameFactory.getMappingTableName(type);
+	        if (LangUtils.isNotEmpty(tableName)) return tableName;
+        }
+	    if (LangUtils.isEmpty(tableName)) {
+	        throw new SimpleORMException(String.format("没有找到类型%s对应的表名", type.getName()));
+	    }
+	    return tableName;
+	}
+	
+//	private static String getColumnName(BeanProperty<?> bp) {
+//	    String columnName = null;
+//	    for (PropertyColumnNameFactory columnNameFactory : COLUMN_NAME_FACTORIES) {
+//	        columnName = columnNameFactory.getMappingColumnName(bp);
+//	        if (columnName != null) return columnName;
+//	    }
+//	    if (LangUtils.isEmpty(columnName)) {
+//            throw new SimpleORMException(String.format("没有找到类型%s的属性%s对应的列名"
+//                    , bp.getOwnerType().getName(), bp.getName()));
+//        }
+//	    return columnName;
+//	}
 
 	private static boolean mapping(BeanProperty<?> beanProperty, Map<String, PropertyMapping> tableMapping
 			, StringBuilder logInfo) {
