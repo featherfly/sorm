@@ -100,7 +100,8 @@ public class QueryOperate<T> extends AbstractQueryOperate<T>{
 	 */
 	public List<T> list(final String condition, final Object...params) {
 		if (LangUtils.isEmpty(condition)) {
-			throw new SimpleORMException("condition 不能为null");
+			throw new SimpleORMException("#list.condition.null");
+//			throw new SimpleORMException("condition 不能为null");
 		}
 		return jdbcTemplate.execute(new ConnectionCallback<List<T>>() {
 			@Override

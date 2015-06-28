@@ -2,8 +2,9 @@
 <classpath>
 	<classpathentry kind="output" path="bin"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
-	<classpathentry sourcepath="C:/Users/zj/.gradle/caches/modules-2/files-2.1/cn.featherfly/featherfly-db/1.4.8/9a59ad61d40e3fff21e66eeb6f67f78ca73d14b6/featherfly-db-1.4.8-sources.jar" kind="lib" path="C:/Users/zj/.gradle/caches/modules-2/files-2.1/cn.featherfly/featherfly-db/1.4.8/57aa2d17db972c8d163cc3f78e162aa798282529/featherfly-db-1.4.8.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/zj/.m2/repository/cn/featherfly/featherfly-db/1.4.9/featherfly-db-1.4.9-sources.jar" kind="lib" path="C:/Users/zj/.m2/repository/cn/featherfly/featherfly-db/1.4.9/featherfly-db-1.4.9.jar" exported="true"/>
 	<classpathentry sourcepath="C:/Users/zj/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/4.1.6.RELEASE/b32d0abb7eafcd32b527b5b51bb73ce782008ada/spring-jdbc-4.1.6.RELEASE-sources.jar" kind="lib" path="C:/Users/zj/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/4.1.6.RELEASE/895d8f28e64c0445e3ee9461963406123f06821c/spring-jdbc-4.1.6.RELEASE.jar" exported="true"/>
 	<classpathentry sourcepath="C:/Users/zj/.gradle/caches/modules-2/files-2.1/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.0.Final/33fbaa7276b774ef0925f541640f6ff23fbc62dc/hibernate-jpa-2.1-api-1.0.0.Final-sources.jar" kind="lib" path="C:/Users/zj/.gradle/caches/modules-2/files-2.1/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.0.Final/5e731d961297e5a07290bfaf3db1fbc8bbbf405a/hibernate-jpa-2.1-api-1.0.0.Final.jar" exported="true"/>
 	<classpathentry sourcepath="C:/Users/zj/.gradle/caches/modules-2/files-2.1/org.testng/testng/6.8.21/b9afc760cabb3f2008f8c2d3fcfa5cf2327ea3d1/testng-6.8.21-sources.jar" kind="lib" path="C:/Users/zj/.gradle/caches/modules-2/files-2.1/org.testng/testng/6.8.21/15e02d8d7be3c3640b585b97eda56026fdb5bf4d/testng-6.8.21.jar" exported="true"/>

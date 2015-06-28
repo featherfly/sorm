@@ -77,9 +77,10 @@ public abstract class AbstractExecuteOperate<T> extends AbstractOperate<T>{
 						}
 					}
 					if (i > 1) {
-						throw new SimpleORMException("出现多个自动生成的键值，" +
-								"目前不支持多个自动生成的键值，" +
-								"你可以选择关闭自动生成键值setGeneratedKey(false)");
+					    throw new SimpleORMException("#generate.multi.pk");
+//						throw new SimpleORMException("出现多个自动生成的键值，" +
+//								"目前不支持多个自动生成的键值，" +
+//								"你可以选择关闭自动生成键值setGeneratedKey(false)");
 					}
 					ResultSet res = prep.getGeneratedKeys();
 					StringBuilder msg = null;

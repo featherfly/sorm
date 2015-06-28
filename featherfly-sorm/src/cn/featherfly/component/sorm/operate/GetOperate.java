@@ -66,7 +66,8 @@ public class GetOperate<T> extends AbstractQueryOperate<T>{
 	 */
 	public T get(final Serializable id) {; 
 		if (id == null) {
-			throw new SimpleORMException("get id 不能为null");
+			throw new SimpleORMException("#get.id.null");
+//			throw new SimpleORMException("get id 不能为null");
 		}
 		return jdbcTemplate.execute(new ConnectionCallback<T>() {
 			@Override

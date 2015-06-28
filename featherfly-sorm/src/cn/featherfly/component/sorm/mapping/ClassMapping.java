@@ -129,14 +129,16 @@ public class ClassMapping<T> {
 				}
 			}
 			if (!findPk) {
-				throw new SimpleORMException(String.format(
-						"类%s没有找到主键映射属性（使用@Identity注解标注的属性）",
-						type.getName()));
+				throw new SimpleORMException("#id.map.not.exists", new Object[] {type.getName()});
+//				throw new SimpleORMException(String.format(
+//						"类%s没有找到主键映射属性（使用@Identity注解标注的属性）",
+//						type.getName()));
 			}
 			// 从对象对应的table读取列，找到隐式映射（下划线分割后的自动大写）
 			TableMetadata tm = meta.getTable(tableName);
 			if (tm == null) {
-				throw new SimpleORMException("数据库表[" + tableName + "]不存在");
+				throw new SimpleORMException("#talbe.not.exists", new Object[] {tableName});
+//				throw new SimpleORMException("数据库表[" + tableName + "]不存在");
 			}
 			for (ColumnMetadata cmd : tm.getColumns()) {
 				mappingHidden(bd, tableMapping, cmd, logInfo);
@@ -164,7 +166,8 @@ public class ClassMapping<T> {
 	        if (LangUtils.isNotEmpty(tableName)) return tableName;
         }
 	    if (LangUtils.isEmpty(tableName)) {
-	        throw new SimpleORMException(String.format("没有找到类型%s对应的表名", type.getName()));
+	        throw new SimpleORMException("#notalbe.map.type", new Object[] {type.getName()});
+//	        throw new SimpleORMException(String.format("没有找到类型%s对应的表名", type.getName()));
 	    }
 	    return tableName;
 	}
