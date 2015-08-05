@@ -3,13 +3,21 @@ package cn.featherfly.component.sorm;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import cn.featherfly.common.db.builder.ConditionBuilder;
 import cn.featherfly.common.db.data.Execution;
 import cn.featherfly.common.db.data.SimpleExecution;
 import cn.featherfly.common.lang.AssertIllegalArgument;
+import cn.featherfly.common.lang.LangUtils;
 import cn.featherfly.component.sorm.operate.DeleteOperate;
 import cn.featherfly.component.sorm.operate.GetOperate;
 import cn.featherfly.component.sorm.operate.InsertOperate;
@@ -65,6 +73,16 @@ public class SimpleORM<T> {
 	 * @return 影响的数据库行数
 	 */
 	public int save(T entity) {
+	    if (validator != null) {
+	        Set<ConstraintViolation<T>> cons = validator.validate(entity);
+	        if (LangUtils.isNotEmpty(cons)) {
+	            StringBuilder errorMessage = new StringBuilder();
+	            for (ConstraintViolation<T> constraintViolation : cons) {
+                    errorMessage.append(constraintViolation.getMessage()).append(",");
+                }
+	            throw new SimpleORMException();
+	        }
+	    }
 		return insertOperate.execute(entity);
 	}
 
@@ -76,6 +94,16 @@ public class SimpleORM<T> {
 	 * @return 影响的数据库行数
 	 */
 	public int update(T entity) {
+	    if (validator != null) {
+            Set<ConstraintViolation<T>> cons = validator.validate(entity);
+            if (LangUtils.isNotEmpty(cons)) {
+                StringBuilder errorMessage = new StringBuilder();
+                for (ConstraintViolation<T> constraintViolation : cons) {
+                    errorMessage.append(constraintViolation.getMessage()).append(",");
+                }
+                throw new SimpleORMException();
+            }
+        }
 		return updateOperate.execute(entity);
 	}
 
@@ -105,7 +133,6 @@ public class SimpleORM<T> {
 	 * <p>
 	 * 获取指定的对象.
 	 * </p>
-	 * @see cn.featherfly.component.sorm.operate.GetOperate#get(id)
 	 * @param id 唯一标识
 	 * @return 指定主键值的对象
 	 */
@@ -279,6 +306,22 @@ public class SimpleORM<T> {
 	private GetOperate<T> getOperate;
 	
 	private QueryOperate<T> queryOperate;
+	
+	private Validator validator;
 
+    /**
+     * 返回validator
+     * @return validator
+     */
+    public Validator getValidator() {
+        return validator;
+    }
 
+    /**
+     * 设置validator
+     * @param validator validator
+     */
+    public void setValidator(Validator validator) {
+        this.validator = validator;
+    }	
 }

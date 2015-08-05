@@ -2,7 +2,7 @@ package cn.featherfly.component.sorm;
 
 import java.util.Locale;
 
-import cn.featherfly.common.exception.StandardResourceBundleException;
+import cn.featherfly.common.exception.LocalizedException;
 
 /**
  * <p>
@@ -13,7 +13,7 @@ import cn.featherfly.common.exception.StandardResourceBundleException;
  * @since 1.0
  * @version 1.0
  */
-public class SimpleORMException extends StandardResourceBundleException {
+public class SimpleORMException extends LocalizedException {
 
 	private static final long serialVersionUID = 3200233346249297455L;
 

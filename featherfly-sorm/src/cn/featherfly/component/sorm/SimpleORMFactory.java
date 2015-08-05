@@ -92,6 +92,7 @@ public class SimpleORMFactory {
 			synchronized (cache) {
 				if (simpleORM == null) {
 					simpleORM = new SimpleORM<E>(type, new JdbcTemplate(dataSource), dataBase);
+					cache.put(type, simpleORM);
 				}
 			}
 		}
