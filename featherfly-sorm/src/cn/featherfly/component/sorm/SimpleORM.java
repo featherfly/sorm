@@ -9,15 +9,15 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import cn.featherfly.common.db.builder.ConditionBuilder;
 import cn.featherfly.common.db.data.Execution;
 import cn.featherfly.common.db.data.SimpleExecution;
+import cn.featherfly.common.db.metadata.DatabaseMetadata;
+import cn.featherfly.common.db.metadata.DatabaseMetadataManager;
 import cn.featherfly.common.lang.AssertIllegalArgument;
 import cn.featherfly.common.lang.LangUtils;
+import cn.featherfly.component.sorm.mapping.ClassMapping;
 import cn.featherfly.component.sorm.operate.DeleteOperate;
 import cn.featherfly.component.sorm.operate.GetOperate;
 import cn.featherfly.component.sorm.operate.InsertOperate;
@@ -57,6 +57,7 @@ public class SimpleORM<T> {
 	private void init(Class<T> type, JdbcTemplate jdbcTemplate, String dataBase) {
 		AssertIllegalArgument.isNotNull(jdbcTemplate, "jdbcTemplate不能为空");
 		AssertIllegalArgument.isNotNull(jdbcTemplate.getDataSource(), "数据源（jdbcTemplate.dataSource）不能为空");
+		metadata = DatabaseMetadataManager.getDefaultManager().create(jdbcTemplate.getDataSource());
 		insertOperate = new InsertOperate<T>(type, jdbcTemplate, dataBase);
 		updateOperate = new UpdateOperate<T>(type, jdbcTemplate, dataBase);
 		deleteOperate = new DeleteOperate<T>(type, jdbcTemplate, dataBase);
@@ -195,6 +196,20 @@ public class SimpleORM<T> {
 	
 	/**
 	 * <p>
+	 * 返回指定类型的映射信息
+	 * </p>
+	 * @param type 类型
+	 * @return 映射信息
+	 */
+	public ClassMapping<T> getClassMapping(Class<T> type) {
+	    if (type == null) {
+	        return null;
+	    }
+	    return ClassMapping.getMappedClass(type, metadata);
+	}
+	
+	/**
+	 * <p>
 	 * 返回唯一标示值
 	 * </p>
 	 * @param entity 实体对象
@@ -306,6 +321,8 @@ public class SimpleORM<T> {
 	private GetOperate<T> getOperate;
 	
 	private QueryOperate<T> queryOperate;
+	
+	private DatabaseMetadata metadata;
 	
 	private Validator validator;
 
