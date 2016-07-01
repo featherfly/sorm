@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Id;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -121,7 +123,7 @@ public class ClassMapping<T> {
 					SystemPropertyUtils.getLineSeparator(), type.getName(), tableName));
 
 			Collection<BeanProperty<?>> bps =  bd.findBeanPropertys(
-					new BeanPropertyAnnotationMatcher(Logic.OR, Column.class, Identity.class));
+					new BeanPropertyAnnotationMatcher(Logic.OR, Column.class, Identity.class, Id.class));
 			boolean findPk = false;
 			for (BeanProperty<?> beanProperty : bps) {
 				if (mapping(beanProperty, tableMapping, logInfo)) {
@@ -209,7 +211,10 @@ public class ClassMapping<T> {
 			mapping.setInnerPropertyName(innerBeanProperty.getName());
 			mapping.setInnerPropertyType(innerBeanProperty.getType());
 		}
-		boolean hasPk = beanProperty.hasAnnotation(Identity.class);
+		boolean hasPk = beanProperty.hasAnnotation(Identity.class);;
+		if (!hasPk) {
+		    hasPk = beanProperty.hasAnnotation(Id.class);
+		}
 		mapping.setPrimaryKey(hasPk);
 		tableMapping.put(mapping.getColumnName(), mapping);
 		if (LOGGER.isDebugEnabled()) {

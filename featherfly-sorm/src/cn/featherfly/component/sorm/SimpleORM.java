@@ -81,7 +81,7 @@ public class SimpleORM<T> {
 	            for (ConstraintViolation<T> constraintViolation : cons) {
                     errorMessage.append(constraintViolation.getMessage()).append(",");
                 }
-	            throw new SimpleORMException();
+	            throw new SimpleORMException(errorMessage.toString());
 	        }
 	    }
 		return insertOperate.execute(entity);
@@ -102,7 +102,7 @@ public class SimpleORM<T> {
                 for (ConstraintViolation<T> constraintViolation : cons) {
                     errorMessage.append(constraintViolation.getMessage()).append(",");
                 }
-                throw new SimpleORMException();
+                throw new SimpleORMException(errorMessage.toString());
             }
         }
 		return updateOperate.execute(entity);

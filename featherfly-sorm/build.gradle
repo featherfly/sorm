@@ -71,11 +71,16 @@ publishing {
 }
   
 dependencies {  
-    compile ('cn.featherfly:featherfly-db:1.4.9'
+    compile ('cn.featherfly:featherfly-db:1.4.9') {
+                exclude group : 'cn.featherfly', module : 'featherfly-common'
+            }
+    compile (
+            'cn.featherfly:featherfly-common:1.4.3'
             ,'org.springframework:spring-jdbc:4.1.6.RELEASE'
             ,'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
             ,'org.hibernate:hibernate-validator:5.1.1.Final'            
             )
+    
     
     testCompile (
         'org.testng:testng:6.8.21'
