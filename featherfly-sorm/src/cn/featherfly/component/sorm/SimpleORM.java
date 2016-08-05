@@ -148,8 +148,7 @@ public class SimpleORM<T> {
 	 * @return 传入对象主键值对应的数据库对象
 	 */
 	public T load(T entity) {
-		return getOperate.get(
-				getOperate.getIdentity(entity));
+		return getOperate.get(getOperate.getIdentity(entity));
 	}
 	/**
 	 * <p>

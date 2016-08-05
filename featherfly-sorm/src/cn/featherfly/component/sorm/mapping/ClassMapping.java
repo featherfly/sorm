@@ -44,7 +44,6 @@ public class ClassMapping<T> {
 	private static final char UNDER_LINE = '_';
 
 	private static final Map<Class<?>, ClassMapping<?>> MAPPED_CLASS = new HashMap<Class<?>, ClassMapping<?>>();
-
 	
 	private static final List<ClassTableNameFactory> TABLE_NAME_FACTORIES;
 	
@@ -110,13 +109,6 @@ public class ClassMapping<T> {
 			StringBuilder logInfo = new StringBuilder();
 //			// 从对象中读取有Column的列，找到显示映射，使用scan扫描			
 			BeanDescriptor<T> bd = BeanDescriptor.getBeanDescriptor(type);
-//			Table tableAnnotation = bd.getAnnotation(Table.class);
-//			String tableName = null;
-//			if (tableAnnotation == null) {
-//				tableName = WordUtils.addSignBeforeUpper(type.getSimpleName(), UNDER_LINE , true);
-//			} else {
-//				tableName = tableAnnotation.value();
-//			}
 		    String tableName = getTableName(type);
 			tableName = tableName.toUpperCase();
 			logInfo.append(String.format("###%s类%s映射到表%s",
@@ -132,15 +124,11 @@ public class ClassMapping<T> {
 			}
 			if (!findPk) {
 				throw new SimpleORMException("#id.map.not.exists", new Object[] {type.getName()});
-//				throw new SimpleORMException(String.format(
-//						"类%s没有找到主键映射属性（使用@Identity注解标注的属性）",
-//						type.getName()));
 			}
 			// 从对象对应的table读取列，找到隐式映射（下划线分割后的自动大写）
 			TableMetadata tm = meta.getTable(tableName);
 			if (tm == null) {
 				throw new SimpleORMException("#talbe.not.exists", new Object[] {tableName});
-//				throw new SimpleORMException("数据库表[" + tableName + "]不存在");
 			}
 			for (ColumnMetadata cmd : tm.getColumns()) {
 				mappingHidden(bd, tableMapping, cmd, logInfo);
@@ -169,7 +157,6 @@ public class ClassMapping<T> {
         }
 	    if (LangUtils.isEmpty(tableName)) {
 	        throw new SimpleORMException("#notalbe.map.type", new Object[] {type.getName()});
-//	        throw new SimpleORMException(String.format("没有找到类型%s对应的表名", type.getName()));
 	    }
 	    return tableName;
 	}
