@@ -86,8 +86,8 @@ public class QueryOperate<T> extends AbstractQueryOperate<T>{
 	 * @return 结果集合
 	 */
 	public List<T> list(ConditionBuilder conditionBuilder) {
-		conditionBuilder.setBuildWithWhere(false);
-		return list(conditionBuilder.build(), CollectionUtils.toArray(conditionBuilder.getParams(), Object.class));
+		conditionBuilder.setBuildWithWhere(true);
+        return query(sql + " " + conditionBuilder.build(), CollectionUtils.toArray(conditionBuilder.getParams(), Object.class));
 	}
 	
 	/**
@@ -101,45 +101,36 @@ public class QueryOperate<T> extends AbstractQueryOperate<T>{
 	public List<T> list(final String condition, final Object...params) {
 		if (LangUtils.isEmpty(condition)) {
 			throw new SimpleORMException("#list.condition.null");
-//			throw new SimpleORMException("condition 不能为null");
 		}
-		return jdbcTemplate.execute(new ConnectionCallback<List<T>>() {
-			@Override
-			public List<T> doInConnection(Connection conn) throws SQLException,
-					DataAccessException {
-				String executeSql = getSql(condition);
-				logger.debug("execute sql: {}" , executeSql);
-				PreparedStatement prep = conn.prepareStatement(executeSql);
-				
-				JdbcUtils.setParameters(prep, params);
-				
-				ResultSet res = prep.executeQuery();
-				List<T> list = new ArrayList<>();
-				int index = 0;
-				T t = null;
-				while (res.next()) {
-					t = mapRow(res, index);
-					index++;
-					list.add(t);
-				}
-				prep.close();
-				conn.close();
-				return list;
-			}
-		});
+		return query(getSql(condition), params);
+	}
+	
+	private List<T> query(final String executeSql, final Object...params) {
+	    return jdbcTemplate.execute(new ConnectionCallback<List<T>>() {
+            @Override
+            public List<T> doInConnection(Connection conn) throws SQLException,
+                    DataAccessException {
+                logger.debug("execute sql: {}" , executeSql);
+                PreparedStatement prep = conn.prepareStatement(executeSql);
+                
+                JdbcUtils.setParameters(prep, params);
+                
+                ResultSet res = prep.executeQuery();
+                List<T> list = new ArrayList<>();
+                int index = 0;
+                T t = null;
+                while (res.next()) {
+                    t = mapRow(res, index);
+                    index++;
+                    list.add(t);
+                }
+                prep.close();
+                conn.close();
+                return list;
+            }
+        });
 	}
 
-//	/**
-//	 * {@inheritDoc}
-//	 */
-//	@Override
-//	protected void initSql() {
-//		StringBuilder getSql = new StringBuilder();		
-//		getSql.append(getSelectSql())
-//			.append(" where ");
-//		this.sql = getSql.toString();
-//		LOGGER.debug("sql: {}" , this.sql);
-//	}
 	/**
 	 * {@inheritDoc}
 	 */

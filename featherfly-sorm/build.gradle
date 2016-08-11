@@ -75,10 +75,10 @@ dependencies {
                 exclude group : 'cn.featherfly', module : 'featherfly-common'
             }
     compile (
-            'cn.featherfly:featherfly-common:1.4.3'
-            ,'org.springframework:spring-jdbc:4.1.6.RELEASE'
-            ,'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
-            ,'org.hibernate:hibernate-validator:5.1.1.Final'            
+            'cn.featherfly:featherfly-common:latest.integration'
+            ,'org.springframework:spring-jdbc:4.3.2.RELEASE'
+            ,'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:latest.integration'
+            ,'org.hibernate:hibernate-validator:latest.integration'            
             )
     
     
