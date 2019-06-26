@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * <p>
  * 注释值对象的属性与数据库的列的对应关系.
  * </p>
- * @author 钟冀
+ * @author zhongj
  * @since 2.0
  * @version 2.0
  */

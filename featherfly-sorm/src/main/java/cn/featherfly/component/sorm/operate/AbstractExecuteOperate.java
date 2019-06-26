@@ -21,7 +21,7 @@ import cn.featherfly.component.sorm.mapping.PropertyMapping;
  * 数据库操作的抽象类
  * </p>
  * @param <T> 对象类型
- * @author 钟冀
+ * @author zhongj
  * @since 1.0
  * @version 1.0
  */

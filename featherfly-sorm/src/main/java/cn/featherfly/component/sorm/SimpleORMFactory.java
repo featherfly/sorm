@@ -19,7 +19,7 @@ import cn.featherfly.common.lang.LangUtils;
  * <p>
  * 简单对象记录映射.
  * </p>
- * @author 钟冀
+ * @author zhongj
  * @since 1.0
  * @version 1.0
  */

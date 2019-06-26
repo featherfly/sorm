@@ -14,7 +14,7 @@ import cn.featherfly.common.bean.BeanDescriptor;
  * ClassTableMapping jpa impl. use javax.persistence.Table
  * </p>
  * 
- * @author 钟冀
+ * @author zhongj
  */
 public class ClassTableNameJpaFactory implements ClassTableNameFactory{
     

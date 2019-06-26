@@ -9,7 +9,7 @@ import cn.featherfly.common.exception.LocalizedException;
  * SimpleOrm异常
  * </p>
  *
- * @author 钟冀
+ * @author zhongj
  * @since 1.0
  * @version 1.0
  */

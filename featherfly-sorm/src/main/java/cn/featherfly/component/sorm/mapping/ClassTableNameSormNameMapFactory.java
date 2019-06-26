@@ -12,7 +12,7 @@ import cn.featherfly.common.lang.WordUtils;
  * ClassTableMapping use _ join type every word. ClassTableMapping as class_table_mapping
  * </p>
  * 
- * @author 钟冀
+ * @author zhongj
  */
 public class ClassTableNameSormNameMapFactory implements ClassTableNameFactory{
     

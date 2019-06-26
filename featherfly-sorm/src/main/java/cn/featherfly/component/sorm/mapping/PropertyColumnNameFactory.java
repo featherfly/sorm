@@ -8,7 +8,7 @@ import cn.featherfly.common.bean.BeanProperty;
  * PropertyColumnNameFactory
  * </p>
  * 
- * @author 钟冀
+ * @author zhongj
  */
 public interface PropertyColumnNameFactory {
     /**

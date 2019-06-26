@@ -23,7 +23,7 @@ import cn.featherfly.component.sorm.SimpleORMException;
  * 查询操作
  * </p>
  * @param <T> 对象类型
- * @author 钟冀
+ * @author zhongj
  * @since 1.0
  * @version 1.0
  */

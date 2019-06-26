@@ -6,7 +6,7 @@ package cn.featherfly.component.sorm.mapping;
  * ClassTableMapping
  * </p>
  * 
- * @author 钟冀
+ * @author zhongj
  */
 public interface ClassTableNameFactory {
     /**

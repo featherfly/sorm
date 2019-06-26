@@ -7,7 +7,7 @@ import cn.featherfly.common.lang.StringUtils;
  * 属性与列的映射对象
  * </p>
  *
- * @author 钟冀
+ * @author zhongj
  * @since 1.0
  * @version 1.0
  */

@@ -6,7 +6,7 @@ package cn.featherfly.component.sorm.util;
  * TransactionManager
  * </p>
  * 
- * @author 钟冀
+ * @author zhongj
  */
 public interface TransactionManager {
 

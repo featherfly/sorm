@@ -13,7 +13,7 @@ import cn.featherfly.component.sorm.annotation.Table;
  * ClassTableMapping sorm impl. use cn.featherfly.component.sorm.annotation.Table
  * </p>
  * 
- * @author 钟冀
+ * @author zhongj
  */
 public class ClassTableNameSormAnnotationFactory implements ClassTableNameFactory{
     
