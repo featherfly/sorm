@@ -5,15 +5,11 @@ ext {
 }
   
 dependencies {  
-    compile ('cn.featherfly:featherfly-db:1.5.0') {
-                exclude group : 'cn.featherfly', module : 'featherfly-common'
-            }
-    compile (
-            'cn.featherfly:featherfly-common:latest.integration'
-            ,'org.springframework:spring-jdbc:4.3.2.RELEASE'
-            ,'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:latest.integration'
-            ,'org.hibernate:hibernate-validator:latest.integration'            
-            )
+    compile 'cn.featherfly:featherfly-db:1.5.6'
+    compile 'org.springframework:spring-jdbc:5.2.1.RELEASE'
+    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final'
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.18.Final'
+            
     
     //testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.2'
     //testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.2'
